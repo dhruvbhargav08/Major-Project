@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Input Form</title>
+</head>
+<body>
+    <form action="/check" method="post">
+    {% for i in questions %}
+    
+    <div>
+        Question: {{ i['q'] }}
+        <div>
+            {% for j, option in i['options'].items() %}
+            <input type="radio" name="{{ i['qid'] }}" value="{{ j }}" id="{{ j }}">
+            <label for="{{ j }}">{{ option }}</label><br>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

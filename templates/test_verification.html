@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EPS</title>
+</head>
+<body>
+    <h1></h1>
+    <form id="loginForm" action="/details" method="post">
+        <label for="testid">TestId:</label>
+        <input type="text" id="testid" name="testid" required><br><br>
+        <video id="webcam" autoplay width="320" height="320"></video>
+        <button id="captureButton" type="button">Capture Photo</button>
+        
+        <canvas id="photoCanvas" style="display: none;"></canvas>
+        <img id="capturedPhoto" style="display: none; max-width: 100%;">
+        <label for="checkbox">Do you want us to use this image:</label>
+        <input type="checkbox" id="checkbox" name="checkbox">
+        <input type="submit" value="Submit" id="submitButton" disabled>
+        <script>
+            // Get access to the webcam and display the video feed
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    const webcam = document.getElementById('webcam');
+                    webcam.srcObject = stream;
+                })
+                .catch(function (error) {
+                    console.error('Error accessing the webcam:', error);
+                });
+
+            const captureButton = document.getElementById('captureButton');
+            const photoCanvas = document.getElementById('photoCanvas');
+            const capturedPhoto = document.getElementById('capturedPhoto');
+            const checkbox = document.getElementById('checkbox');
+            const submitButton = document.getElementById('submitButton');
+
+            // Add an event listener to the capture button
+            captureButton.addEventListener('click', function () {
+                // Capture a photo from the webcam and display it
+                photoCanvas.width = webcam.videoWidth;
+                photoCanvas.height = webcam.videoHeight;
+                photoCanvas.getContext('2d').drawImage(webcam, 0, 0, webcam.videoWidth, webcam.videoHeight);
+                capturedPhoto.src = photoCanvas.toDataURL('image/png');
+
+                // Show the captured photo
+                capturedPhoto.style.display = 'block';
+                if (checkbox.checked) {
+                    submitButton.disabled = false ;
+                }
+
+                // Enable the submit button when the checkbox is checked
+            });
+
+            checkbox.addEventListener('change', function () {
+                submitButton.disabled = !checkbox.checked;
+            });
+        </script>
+
+        
+    </form>
+</body>
+</html>

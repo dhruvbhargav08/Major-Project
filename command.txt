@@ -1,0 +1,5 @@
+write anaconda on command
+open anaconda prompt
+go to the path where code place
+write activate env
+then run python online procuring system .py
