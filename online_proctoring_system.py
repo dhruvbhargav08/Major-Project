@@ -346,7 +346,8 @@ while True:
         
     # Display the resulting image
     # Hit 'q' on the keyboard to quit!
-    data = db.Live_Test.find_one({"testid": 1})
+    test_id=sys.argv[1]
+    data = db.Live_Test.find_one({"testid": int(test_id)})
     if (data['laptop'] > 0 or data['cell_phone'] > 0 or data['book'] > 0 or data['tv'] > 0 or data['person'] > 1):
         center_res=(75,420)
         pyautogui.moveTo(center_res)

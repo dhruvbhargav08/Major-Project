@@ -79,10 +79,22 @@ def give_test():
     test_id=int(request.form.get("test_id"))
     data = db.Test.find_one({"test_id":test_id})
     questions = data["questions"]
+    dict={
+        "testid":test_id,
+        "laptop":0,
+        "cell_phone": 0,
+        "book": 0,
+        "tv":0,
+        "person":1
+    }
+    if db.Live_Test.find_one({"testid":test_id}):
+        pass
+    else:
+        db.Live_Test.insert_one(dict)
     global running_process
     if running_process is None:
         # Start the Python script
-        running_process = subprocess.Popen(['python', 'online_proctoring_system.py'])
+        running_process = subprocess.Popen(['python', 'online_proctoring_system.py',str(test_id)])
         time.sleep(30)
         return render_template('test.html',questions=questions,test_id=test_id)
 
@@ -97,6 +109,7 @@ def check_result():
     score=0
     test_id=int(request.form.get("test_id"))
     data=db.Test.find_one({"test_id":test_id})
+    db.Live_Test.delete_one({"testid": test_id})
     questions=data["questions"]
     for question in questions:
         if question['answer']==request.form.get(str(question['qid'])):
