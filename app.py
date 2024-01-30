@@ -18,8 +18,11 @@ def create():
     return render_template('new.html')
 @app.route('/new_user_create',methods=['GET','POST'])
 def new_user_create():
-    user={"email": request.form["email"],"name": request.form["name"],"password": request.form["password"]}
-    db.Student.insert_one(user)
+    user={"email": request.form["email"],"name": request.form["name"],"password": request.form["password"],"role":request.form["role"]}
+    if request.form["role"]=="Student":
+        db.Student.insert_one(user)
+    elif request.form["role"]=="Teacher":
+        db.Teacher.insert_one(user)
     return render_template('home_page.html')
 @app.route('/login')
 def login():
@@ -30,23 +33,59 @@ def test_verification():
     name=request.form.get('name')
     password=request.form.get('password')
     data=db.Student.find_one({'email': email})
-    if str(name)==str(data['name']) and str(password)==str(data['password']):
-        return render_template('test_verification.html',name=name)
+    if data is not None:
+        if str(name)==str(data['name']) and str(password)==str(data['password']):
+            return render_template('test_verification.html',name=name)
+        else:
+            return render_template('login.html')
     else:
-        return render_template('login.html')
+        return redirect("/create_test")
+
+@app.route('/create_test')
+def create_test():
+    return render_template("create_test.html")
+
+@app.route('/add_test',methods=['GET','POST'])
+def add_test():
+    if request.method == 'POST':
+        test={}
+        list=[]
+        test_id= request.form.get('test_id')
+        i=0
+        questions=[]
+        while request.form.get(f"questions[{i}]"):
+            dict={}
+            options={}
+            for j in range (4):
+                options[f"o{j}"]=request.form.get(f"questions[{i}][{j}]")
+            dict["qid"]=i
+            dict["q"]=request.form.get(f"questions[{i}]")
+            dict["options"]=options
+            dict["answer"]=request.form.get(f"questions[{i}]answer")
+            questions.append(dict)
+            i+=1
+        data={
+        "test_id":int(test_id),
+        "questions":questions
+        }
+        db.Test.insert_one(data)
+        return redirect("/")
+
 @app.route('/details',methods=['GET','POST'])
 def details():
-    return render_template('details.html')
+    return render_template('details.html',test_id=request.form.get("testid"))
 @app.route('/start',methods=['GET','POST'])
 def give_test():
-    data = db.Test.find_one({"test_id": 1})
+    test_id=int(request.form.get("test_id"))
+    data = db.Test.find_one({"test_id":test_id})
     questions = data["questions"]
     global running_process
     if running_process is None:
         # Start the Python script
         running_process = subprocess.Popen(['python', 'online_proctoring_system.py'])
         time.sleep(30)
-        return render_template('test.html', questions=questions)
+        return render_template('test.html',questions=questions,test_id=test_id)
+
 
 @app.route('/check',methods=['GET','POST'])
 def check_result():
@@ -56,7 +95,8 @@ def check_result():
         running_process.terminate()
         running_process = None
     score=0
-    data=db.Test.find_one({"test_id":1})
+    test_id=int(request.form.get("test_id"))
+    data=db.Test.find_one({"test_id":test_id})
     questions=data["questions"]
     for question in questions:
         if question['answer']==request.form.get(str(question['qid'])):

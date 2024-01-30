@@ -11,8 +11,9 @@
     <script src="https://unpkg.com/scrollreveal@4.0.0/static/scrollreveal.min.js"></script>
 </head>
 <body class="is-boxed has-animations">
+    <form id="loginForm" action="/start" method="post">
+        <input type="text" id="test_id" name="test_id" value="{{test_id}}" readonly>
     <div class="body-wrap">
-
         <p>
         Test environment rules 
         1. No other person is allowed to enter the room while you are taking the proctored exam. 
@@ -32,13 +33,12 @@
         • Textbooks 
         • Notebooks 
         • Phones
-</p>
+        </p>
         </div>
 
       
     </div>
     
-    <form id="loginForm" action="/start" method="post">
         <input type="submit" value="Submit">
     </form>
 </body>
