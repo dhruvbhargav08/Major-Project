@@ -1,45 +1,134 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Instructions</title>
-    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600" rel="stylesheet">
-    <link rel="stylesheet" href="static/css/style.css">
-	<script src="https://unpkg.com/animejs@3.0.1/lib/anime.min.js"></script>
-    <script src="https://unpkg.com/scrollreveal@4.0.0/static/scrollreveal.min.js"></script>
-</head>
-<body class="is-boxed has-animations">
-    <form id="loginForm" action="/start" method="post">
-        <input type="text" id="test_id" name="test_id" value="{{test_id}}" readonly>
-    <div class="body-wrap">
-        <p>
-        Test environment rules 
-        1. No other person is allowed to enter the room while you are taking the proctored exam. 
-        2. The lighting in the room must be bright enough to be considered "daylight" quality. 
-        Overhead lighting is preferred. If overhead lighting is not available, the source of light 
-        must not be behind you. 
-        3. You must sit at a clean desk or table. 
-        4. The desk or walls around you must not have any writing. 
-        5. The room must be as quiet as possible. Sounds such as music or television are not 
-        permitted. 
-        6. The following items must not be on your desk or used during your proctored exam, 
-        unless posted rules for the exam specifically permit these materials: 
-        • Books 
-        • Paper 
-        • Pens 
-        • Calculators 
-        • Textbooks 
-        • Notebooks 
-        • Phones
-        </p>
-        </div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Proctoring System</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 150vh;
+        }
 
-      
-    </div>
-    
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1161d3; /* Blue color */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        video {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #1161d3; /* Blue color */
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color:#1161d3; /* Light blue for disabled */
+            color: #fff;
+            cursor: not-allowed;
+        }
+
+        canvas, img {
+            width: 100%;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+
+        #checkboxContainer {
+           
+            /* display: flex; */
+            align-items: center; 
+            justify-content:left ; /* Center align */
+            margin-top: 10px;
+            margin-bottom: 16px;
+            
+        }
+
+        #checkboxLabel {
+          
+            margin-left: 8px;
+            color: #555;
+        }
+
+        #logo {
+           
+            max-width: 50%;
+            margin-bottom: 20px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <form id="loginForm" action="/start" method="post">
+   
+        <img id="logo" src="..\static\img\Proctor Pro-logos.jpg" alt="Company Logo" width="300" height="300">
+        <h1>Online Proctoring System</h1>
+        <!-- <input type="text" id="testid" name="testid" required> -->
+        <div>
+        <label for="">Test ID</label>
+        <input type="text" id="test_id" name="test_id" value="{{test_id}}" readonly>
+        </div>
+        <div class="body-wrap" >
+            <p align="left">
+            Test environment rules <br>
+            1. No other person is allowed to enter the room while taking the exam. <br>
+            2. The lighting in the room must be bright .Overhead lighting is preferred. <br>
+            3. You must sit at a clean desk or table. <br>
+            4. The desk or walls around you must not have any writing. <br>
+            5. The room must be quiet. Sounds such as music/television are not permitted. <br>
+            6. The following items must not be on your desk or used during your proctored exam :<br>
+            • Books <br>
+            • Paper <br>
+            • Pens <br>
+            • Calculators <br>
+            • Textbooks <br>
+            • Notebooks <br>
+            • Phones<br>
+            </p>
+        </div>
         <input type="submit" value="Submit">
+       
+ 
     </form>
 </body>
 </html>
