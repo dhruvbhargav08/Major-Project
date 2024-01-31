@@ -5,6 +5,7 @@
 </head>
 <body>
     <form action="/check" method="post">
+        <input type="submit" value="Submit">
         <input type="text" id="test_id" name="test_id" value="{{test_id}}" readonly>
     {% for i in questions %}
     
@@ -18,7 +19,6 @@
         </div>
     </div>
     {% endfor %}
-    <input type="submit" value="Submit">
     </form>
 </body>
 </html>
