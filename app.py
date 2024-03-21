@@ -3,12 +3,15 @@ from flask import Flask, render_template,request,redirect
 import threading
 import pymongo
 import time
+from pymongo.mongo_client import MongoClient
 from flask_socketio import SocketIO, emit
 app=Flask(__name__)
 running_process = None
-mongo=pymongo.MongoClient(host="localhost",port=27017,serverSelectionTimeoutMS=1000) #connecting to mongo server
-db=mongo.Major_Project    
-mongo.server_info()
+uri = "mongodb+srv://dhruvbhargav2001:qbR74yh4NzZENHsF@student.hx5tx4b.mongodb.net/?retryWrites=true&w=majority&appName=Student"
+# Create a new client and connect to the server
+client = MongoClient(uri)
+db=client.Major_project    
+client.server_info()
 app = Flask(__name__) 
 @app.route('/')
 def home():
@@ -95,7 +98,7 @@ def give_test():
     if running_process is None:
         # Start the Python script
         running_process = subprocess.Popen(['python', 'online_proctoring_system.py',str(test_id)])
-        time.sleep(30)
+        time.sleep(60)
         return render_template('test.html',questions=questions,test_id=test_id)
 
 
