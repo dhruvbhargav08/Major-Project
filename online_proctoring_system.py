@@ -15,9 +15,12 @@ from headpose_estimation import *
 from face_detection import get_face_detector, find_faces
 import pymongo
 import pyautogui
+from pymongo.mongo_client import MongoClient
 try:
-    mongo=pymongo.MongoClient(host="localhost",port=27017,serverSelectionTimeoutMS=1000) #connecting to mongo server
-    db=mongo.Major_Project    
+    uri = "mongodb+srv://dhruvbhargav2001:qbR74yh4NzZENHsF@student.hx5tx4b.mongodb.net/?retryWrites=true&w=majority&appName=Student"
+# Create a new client and connect to the server
+    client = MongoClient(uri)
+    db=client.Major_project    
     mongo.server_info()
 except:
     print("ERROR")
@@ -106,7 +109,8 @@ while True:
 
             # Conter
             count_items = Counter(temp2)
-            dictt={"testid":1,"laptop":count_items['laptop'], "cell_phone": count_items['cell phone'],"book": count_items['book'],"tv": count_items['tv'],"person":count_items['person']}
+            test_id=sys.argv[1]
+            dictt={"testid":int(test_id),"laptop":count_items['laptop'], "cell_phone": count_items['cell phone'],"book": count_items['book'],"tv": count_items['tv'],"person":count_items['person']}
             db.Live_Test.update_one({"testid": 1},{"$set": dictt})
         except Exception as e:
             count_items = {}
@@ -349,7 +353,7 @@ while True:
     test_id=sys.argv[1]
     data = db.Live_Test.find_one({"testid": int(test_id)})
     if (data['laptop'] > 0 or data['cell_phone'] > 0 or data['book'] > 0 or data['tv'] > 0 or data['person'] > 1):
-        center_res=(75,215)
+        center_res=(65,145)
         pyautogui.moveTo(center_res)
         pyautogui.click()
     if (cv2.waitKey(1) & 0xFF == ord('q')) :
